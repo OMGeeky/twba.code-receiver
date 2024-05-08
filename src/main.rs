@@ -32,6 +32,11 @@ async fn handle_request(req: Request<Body>) -> Result<Response<Body>, Infallible
         (&Method::GET, "/googleapi/auth") => auth_get(req).await,
         (&Method::GET, "/") => Ok(Response::new(Body::from("Hello, World!"))),
         (&Method::GET, "/favicon.ico") => Ok(Response::default()),
+        (&Method::GET, "/robots.txt") => {
+            Ok(Response::new(Body::from("User-agent: *\nDisallow: /")))
+        }
+        (&Method::GET, "sitemap.xml") => Ok(Response::default()),
+        (&Method::GET, "/health") => Ok(Response::new(Body::from("OK"))),
         other => {
             error!("404: {:?} {:?}", other.0, other.1);
             let mut not_found = Response::default();
